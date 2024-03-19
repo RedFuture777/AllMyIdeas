@@ -21,23 +21,23 @@ public class LeakyBucket {
         this.bucketSize = bucketSize;
     }
 
-    public synchronized boolean allow(){
+    public synchronized boolean allow() {
         long now = System.currentTimeMillis();
-        long elapsed = now -lastLeakMs;
+        long elapsed = now - lastLeakMs;
 
-        int leakedAmount = (int)(elapsed / 1000.0 * rate);
-        if(leakedAmount > 0){
-            if(leakedAmount >= water){
+        int leakedAmount = (int) (elapsed / 1000.0 * rate);
+        if (leakedAmount > 0) {
+            if (leakedAmount >= water) {
                 water = 0;
-            }else{
+            } else {
                 water -= leakedAmount;
             }
             lastLeakMs = now;
         }
 
-        if(water + 1> bucketSize){
+        if (water + 1 > bucketSize) {
             return false;
-        }else{
+        } else {
             water++;
             return true;
         }
