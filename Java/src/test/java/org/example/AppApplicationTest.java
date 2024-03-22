@@ -4,6 +4,7 @@ import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
+import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -58,8 +59,11 @@ public class AppApplicationTest {
 
     @Test
     public void testRedis(){
-        redisTemplate.opsForValue().set(UUID.randomUUID().toString().replace("-",""), "k1");
-
+//        redisTemplate.opsForValue().set(UUID.randomUUID().toString().replace("-",""), "k1");
+        Jedis jedis = new Jedis("121.40.166.14",6379);
+        jedis.auth("redis123");
+        String set = jedis.set("aa", "bb");
+        System.out.println(set);
     }
 
 
