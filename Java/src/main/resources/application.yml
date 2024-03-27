@@ -7,18 +7,18 @@ spring:
     username: root
     password: aliyun7@mysql
     driver-class-name: com.mysql.cj.jdbc.Driver
-  redis:
-    database: 0
-    host: 121.40.166.14
-    port: 6379
-    password: redis123
-    jedis:
-      pool:
-        min-idle: 0
-        max-active: 8
-        max-idle: 8
-        max-wait: -1ms
-    connect-timeout: 30000ms
+  data:
+    redis:
+      host: 121.40.166.14
+      port: 6379
+      password: redis123
+      jedis:
+        pool:
+          min-idle: 0
+          max-active: 8
+          max-idle: 8
+          max-wait: -1ms
+      connect-timeout: 30000ms
 mybatis-plus:
   mapper-locations: classpath*:mapper/*.xml
   global-config:

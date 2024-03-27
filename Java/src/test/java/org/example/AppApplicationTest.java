@@ -1,14 +1,16 @@
 package org.example;
 
 import jakarta.annotation.Resource;
+import org.example.util.RedisUtils;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import redis.clients.jedis.Jedis;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Unit test for simple App.
@@ -20,6 +22,11 @@ public class AppApplicationTest {
 
     @Resource
     private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private RedisUtils redisUtils;
+
+    public static final String SCORE_RANK = "score_rank";
 
 
     @Test
@@ -43,7 +50,7 @@ public class AppApplicationTest {
 
     }
 
-    private int[] prices = {7,1,5,3,6,4};
+    private int[] prices = {7, 1, 5, 3, 6, 4};
 
     @Test
     public void maxProfit() {
@@ -58,12 +65,24 @@ public class AppApplicationTest {
 
 
     @Test
-    public void testRedis(){
+    public void testRedis() {
 //        redisTemplate.opsForValue().set(UUID.randomUUID().toString().replace("-",""), "k1");
-        Jedis jedis = new Jedis("121.40.166.14",6379);
-        jedis.auth("redis123");
-        String set = jedis.set("aa", "bb");
-        System.out.println(set);
+//        Jedis jedis = new Jedis("121.40.166.14", 6379);
+//        jedis.auth("redis123");
+//        String set = jedis.set("aa", "bb");
+//        System.out.println(set);
+
+
+        Set<ZSetOperations.TypedTuple<String>> tuples =  new HashSet<>();
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 10000; i++) {
+            DefaultTypedTuple<String> tuple = new DefaultTypedTuple<>("张三" + i, 1D + i);
+            tuples.add(tuple);
+        }
+        System.out.println("循环时间:" + (System.currentTimeMillis() - start));
+        Long num = redisUtils.zAdd(SCORE_RANK, tuples);
+        System.out.println("批量新增时间:" + (System.currentTimeMillis() - start));
+        System.out.println("受影响行数:" + num);
     }
 
 

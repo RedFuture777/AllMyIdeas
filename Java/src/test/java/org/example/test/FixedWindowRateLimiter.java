@@ -3,7 +3,7 @@ package org.example.test;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- * 固定窗口算法
+ * 固定窗口算法 --限流
  * 用于限制一段随时间内某个操作的频率
  */
 public class FixedWindowRateLimiter {
