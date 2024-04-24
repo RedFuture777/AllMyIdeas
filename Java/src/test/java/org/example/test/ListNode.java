@@ -1,10 +1,5 @@
 package org.example.test;
 
-/**
- * @description: 链表
- * @author: muqingfeng
- * @date: 2024/4/5 12:45
- */
 public class ListNode {
     //节点的值
     public int val;
